@@ -46,7 +46,7 @@ class RefBranchResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('branch');
+        return __('Branch');
     }
 
     public static function form(Form $form): Form

@@ -47,7 +47,7 @@ class RefSchoolResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('school');
+        return __('School');
     }
 
 
