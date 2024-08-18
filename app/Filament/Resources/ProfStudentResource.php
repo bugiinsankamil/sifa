@@ -39,41 +39,50 @@ class ProfStudentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('ref_branch_id')
+                    ->label('Branch')
                     ->relationship('ref_branch', 'name')
                     ->required(),
                 Forms\Components\Select::make('ref_school_id')
+                    ->label('School')
                     ->relationship('ref_school', 'name')
                     ->required(),
                 Forms\Components\Select::make('ref_school_origin_id')
+                    ->label('School origin')
                     ->relationship('ref_school_origin', 'name'),
                 Forms\Components\Select::make('prof_family_id')
+                    ->label('Parent/family')
                     ->relationship('prof_family', 'id'),
                 Forms\Components\TextInput::make('nis')
+                    ->label('NIS')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nik')
+                    ->label('NIK')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_kk')
+                    ->label('No KK')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nisn')
+                    ->label('NISN')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_ujian')
+                    ->label('Exam Number')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_kip')
+                    ->label('No KIP')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_va_1')
+                    ->label('No VA 1')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_va_2')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('no_va_3')
+                    ->label('No VA 2')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('fullname')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nickname')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('birthplace')
                     ->required()
@@ -84,9 +93,11 @@ class ProfStudentResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('fix_religion_id')
+                    ->label('Religion')
                     ->relationship('fix_religion', 'name')
                     ->required(),
                 Forms\Components\Select::make('fix_stifin_id')
+                    ->label('STIFIn')
                     ->relationship('fix_stifin', 'name')
                     ->required(),
                 Forms\Components\TextInput::make('nationality')
@@ -94,11 +105,20 @@ class ProfStudentResource extends Resource
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('entry_date'),
                 Forms\Components\Select::make('fix_entry_status_id')
+                    ->label('Entry Status')
                     ->relationship('fix_entry_status', 'name'),
                 Forms\Components\DatePicker::make('exit_date'),
                 Forms\Components\Select::make('fix_exit_status_id')
+                    ->label('Exit Status')
                     ->relationship('fix_exit_status', 'name'),
                 Forms\Components\Toggle::make('is_special_needs')
+                    ->inline(false)
+                    ->required(),
+                Forms\Components\TextInput::make('special_needs')
+                    ->maxLength(255),
+                Forms\Components\Toggle::make('is_active')
+                    ->inline(false)
+                    ->default(true)
                     ->required(),
             ]);
     }
@@ -133,8 +153,6 @@ class ProfStudentResource extends Resource
                 Tables\Columns\TextColumn::make('no_va_1')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('no_va_2')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('no_va_3')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('fullname')
                     ->searchable(),

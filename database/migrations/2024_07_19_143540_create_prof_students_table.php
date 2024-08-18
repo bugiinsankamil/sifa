@@ -39,6 +39,8 @@ return new class extends Migration
             $table->date('exit_date')->nullable();
             $table->foreignUlid('fix_exit_status_id')->nullable();
             $table->boolean('is_special_needs')->default(false);
+            $table->string('special_needs')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
