@@ -39,84 +39,95 @@ class ProfStudentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('ref_branch_id')
-                    ->label('Branch')
+                    ->label(__('Branch'))
                     ->relationship('ref_branch', 'name')
                     ->required(),
                 Forms\Components\Select::make('ref_school_id')
-                    ->label('School')
+                    ->label(__('School'))
                     ->relationship('ref_school', 'name')
                     ->required(),
                 Forms\Components\Select::make('ref_school_origin_id')
-                    ->label('School origin')
+                    ->label(__('School Origin'))
                     ->relationship('ref_school_origin', 'name'),
                 Forms\Components\Select::make('prof_family_id')
-                    ->label('Parent/family')
+                    ->label(__('Parent/Family'))
                     ->relationship('prof_family', 'id'),
                 Forms\Components\TextInput::make('nis')
-                    ->label('NIS')
+                    ->label(__('NIS'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nik')
-                    ->label('NIK')
+                    ->label(__('NIK'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_kk')
-                    ->label('No KK')
+                    ->label(__('No KK'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nisn')
-                    ->label('NISN')
+                    ->label(__('NISN'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_ujian')
-                    ->label('Exam Number')
+                    ->label(__('Exam Number'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_kip')
-                    ->label('No KIP')
+                    ->label(__('No KIP'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_va_1')
-                    ->label('No VA 1')
+                    ->label(__('No VA 1'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_va_2')
-                    ->label('No VA 2')
+                    ->label(__('No VA 2'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('fullname')
+                    ->label(__('Fullname'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nickname')
+                    ->label(__('Nickname'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('birthplace')
+                    ->label(__('Birthplace'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('birthdate')
+                    ->label(__('Birthdate'))
                     ->required(),
                 Forms\Components\TextInput::make('gender')
+                    ->label(__('Gender'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('fix_religion_id')
-                    ->label('Religion')
+                    ->label(__('Religion'))
                     ->relationship('fix_religion', 'name')
                     ->required(),
                 Forms\Components\Select::make('fix_stifin_id')
-                    ->label('STIFIn')
+                    ->label(__('STIFIn'))
                     ->relationship('fix_stifin', 'name')
                     ->required(),
                 Forms\Components\TextInput::make('nationality')
+                    ->label(__('Nationality'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('entry_date'),
+                Forms\Components\DatePicker::make('entry_date')
+                    ->label(__('Entry Date')),
                 Forms\Components\Select::make('fix_entry_status_id')
-                    ->label('Entry Status')
+                    ->label(__('Entry Status'))
                     ->relationship('fix_entry_status', 'name'),
-                Forms\Components\DatePicker::make('exit_date'),
+                Forms\Components\DatePicker::make('exit_date')
+                    ->label(__('Exit Date')),
                 Forms\Components\Select::make('fix_exit_status_id')
-                    ->label('Exit Status')
+                    ->label(__('Exit Status'))
                     ->relationship('fix_exit_status', 'name'),
                 Forms\Components\Toggle::make('is_special_needs')
+                    ->label(__('Is Special Needs'))
                     ->inline(false)
                     ->required(),
                 Forms\Components\TextInput::make('special_needs')
+                    ->label(__('Type of Special Needs'))
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
+                    ->label(__('Is Active'))
                     ->inline(false)
                     ->default(true)
                     ->required(),

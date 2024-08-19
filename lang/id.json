@@ -1,0 +1,23 @@
+{
+    "Birthdate": "Tanggal Lahir",
+    "Birthplace": "Tempat Lahir",
+    "Branch": "Cabang",
+    "Entry Date": "Tanggal Masuk",
+    "Entry Status": "Status Masuk",
+    "Exam Number": "No Ujian",
+    "Exit Date": "Tanggal Keluar",
+    "Exit Status": "Status Keluar",
+    "Fullname": "Nama Lengkap",
+    "Gender": "Jenis Kelamin",
+    "Is Active": "Aktif",
+    "Is Special Needs": "Berkebutuhan Khusus",
+    "Nationality": "Kewarganegaraan",
+    "Nickname": "Nama Panggilan",
+    "Parent/Family": "Orang Tua/Keluarga",
+    "Religion": "Agama",
+    "School": "Sekolah",
+    "School Origin": "Asal Sekolah",
+    "STIFIn": "STIFIn",
+    "Student": "Siswa",
+    "Type of Special Needs": "Jenis Kebutuhan Khusus"
+}
