@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('wil_province_id')->constrained();
             $table->foreignId('wil_city_id')->constrained();
             $table->foreignId('wil_district_id')->constrained();
-            $table->foreignId('wil_subdistrict_id')->constrained();
+            $table->foreignId('wil_subdistrict_id')->nullable()->constrained();
             $table->string('contact_person')->nullable();
             $table->string('phone')->nullable();
             $table->timestamps();

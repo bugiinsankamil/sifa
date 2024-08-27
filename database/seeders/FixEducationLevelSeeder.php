@@ -17,62 +17,62 @@ class FixEducationLevelSeeder extends Seeder
         $fix_education_levels = [
             [
                 'name' => 'KB',
-                'order' => 1,
+                'num_code' => '00',
                 'info' => 'Jenjang Kelompok Bermain (KB) atau Playgroup (PG)',
             ],
             [
                 'name' => 'TK',
-                'order' => 2,
+                'num_code' => '01',
                 'info' => 'Jenjang TK/PAUD/RA',
             ],
             [
                 'name' => 'SD',
-                'order' => 3,
+                'num_code' => '02',
                 'info' => 'Jenjang SD/MI',
             ],
             [
                 'name' => 'SMP',
-                'order' => 4,
+                'num_code' => '03',
                 'info' => 'Jenjang SMP/MTs',
             ],
             [
                 'name' => 'SMA',
-                'order' => 5,
+                'num_code' => '04',
                 'info' => 'Jenjang SMA/MAN',
             ],
             [
                 'name' => 'D1',
-                'order' => 6,
+                'num_code' => '05',
                 'info' => 'Jenjang D1',
             ],
             [
                 'name' => 'D2',
-                'order' => 7,
+                'num_code' => '06',
                 'info' => 'Jenjang D2',
             ],
             [
                 'name' => 'D3',
-                'order' => 8,
+                'num_code' => '07',
                 'info' => 'Jenjang D3',
             ],
             [
                 'name' => 'D4',
-                'order' => 9,
+                'num_code' => '08',
                 'info' => 'Jenjang S1/D4',
             ],
             [
                 'name' => 'S1',
-                'order' => 10,
+                'num_code' => '09',
                 'info' => 'Jenjang S1/D4',
             ],
             [
                 'name' => 'S2',
-                'order' => 11,
+                'num_code' => '10',
                 'info' => 'Jenjang S2',
             ],
             [
                 'name' => 'S3',
-                'order' => 12,
+                'num_code' => '11',
                 'info' => 'Jenjang S3',
             ],
         ];

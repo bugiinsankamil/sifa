@@ -10,6 +10,7 @@ use App\Models\WilDistrict;
 use App\Models\WilProvince;
 use App\Models\WilSubdistrict;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -53,66 +54,83 @@ class RefBranchResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('num_code')
-                    ->required()
-                    ->maxLength(2),
-                TextInput::make('alpha_code')
-                    ->required()
-                    ->maxLength(3),
-                Textarea::make('address')
-                    ->required()
-                    ->columnSpanFull(),
-                Select::make('wil_province_id')
-                    ->label('Province')
-                    ->required()
-                    ->options(WilProvince::query()->pluck('name', 'id'))
-                    ->live()
-                    ->afterStateUpdated(function (Set $set) {
-                        $set('wil_city_id', null);
-                        $set('wil_district_id', null);
-                        $set('wil_subdistrict_id', null);
-                    }),
-                Select::make('wil_city_id')
-                    ->label('City')
-                    ->required()
-                    ->options(fn (Get $get): Collection => WilCity::query()->where('wil_province_id', $get('wil_province_id'))
-                        ->pluck('name', 'id'))
-                    ->live()
-                    ->afterStateUpdated(function (Set $set) {
-                        $set('wil_district_id', null);
-                        $set('wil_subdistrict_id', null);
-                    }),
-                Select::make('wil_district_id')
-                    ->label('District')
-                    ->required()
-                    ->options(fn (Get $get): Collection => WilDistrict::query()->where('wil_city_id', $get('wil_city_id'))
-                        ->pluck('name', 'id'))
-                    ->live()
-                    ->afterStateUpdated(function (Set $set) {
-                        $set('wil_subdistrict_id', null);
-                    }),
-                Select::make('wil_subdistrict_id')
-                    ->label('Subdistrict')
-                    ->required()
-                    ->options(fn (Get $get): Collection => WilSubdistrict::query()->where('wil_district_id', $get('wil_district_id'))
-                        ->pluck('name', 'id'))
-                    ->live(),
-                TextInput::make('phone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Toggle::make('is_active')
-                    ->required()
-                    ->default(true),
-                Textarea::make('info')
-                    ->columnSpanFull(),
+                Section::make(__('Main Data'))
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('name')
+                            ->label(__('Name'))
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('num_code')
+                            ->label(__('Num Code'))
+                            ->required()
+                            ->maxLength(2),
+                        TextInput::make('alpha_code')
+                            ->label(__('Alpha Code'))
+                            ->required()
+                            ->maxLength(3),
+                        Toggle::make('is_active')
+                            ->label(__('Is Active'))
+                            ->inline(false)
+                            ->required()
+                            ->default(true),
+                        Textarea::make('info')
+                            ->label(__('Info'))
+                            ->columnSpanFull(),
+                    ]),
+                Section::make(__('Contact Data'))
+                    ->columns(2)
+                    ->schema([
+                        Textarea::make('address')
+                            ->label(__('Address'))
+                            ->required()
+                            ->columnSpanFull(),
+                        Select::make('wil_province_id')
+                            ->label(__('Province'))
+                            ->required()
+                            ->options(WilProvince::query()->pluck('name', 'id'))
+                            ->live()
+                            ->afterStateUpdated(function (Set $set) {
+                                $set('wil_city_id', null);
+                                $set('wil_district_id', null);
+                                $set('wil_subdistrict_id', null);
+                            }),
+                        Select::make('wil_city_id')
+                            ->label(__('City'))
+                            ->required()
+                            ->options(fn(Get $get): Collection => WilCity::query()->where('wil_province_id', $get('wil_province_id'))
+                                ->pluck('name', 'id'))
+                            ->live()
+                            ->afterStateUpdated(function (Set $set) {
+                                $set('wil_district_id', null);
+                                $set('wil_subdistrict_id', null);
+                            }),
+                        Select::make('wil_district_id')
+                            ->label(__('District'))
+                            ->required()
+                            ->options(fn(Get $get): Collection => WilDistrict::query()->where('wil_city_id', $get('wil_city_id'))
+                                ->pluck('name', 'id'))
+                            ->live()
+                            ->afterStateUpdated(function (Set $set) {
+                                $set('wil_subdistrict_id', null);
+                            }),
+                        Select::make('wil_subdistrict_id')
+                            ->label(__('Subdistrict'))
+                            ->required()
+                            ->options(fn(Get $get): Collection => WilSubdistrict::query()->where('wil_district_id', $get('wil_district_id'))
+                                ->pluck('name', 'id'))
+                            ->live(),
+                        TextInput::make('phone')
+                            ->label(__('Phone'))
+                            ->tel()
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('email')
+                            ->label(__('E-mail'))
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                    ]),
             ]);
     }
 
@@ -121,6 +139,7 @@ class RefBranchResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable(),
                 TextColumn::make('num_code')
                     ->label(__('Num Code'))

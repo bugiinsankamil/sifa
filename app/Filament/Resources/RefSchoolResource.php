@@ -13,6 +13,7 @@ use App\Models\WilProvince;
 use App\Models\WilSubdistrict;
 use Filament\Forms;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -28,6 +29,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
+
+use function Pest\Laravel\get;
 
 class RefSchoolResource extends Resource
 {
@@ -50,104 +53,135 @@ class RefSchoolResource extends Resource
         return __('School');
     }
 
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Select::make('ref_branch_id')
-                    ->label('Branch')
-                    ->required()
-                    ->options(RefBranch::query()->pluck('name', 'id'))
-                    ->live(),
-                Select::make('fix_education_level_id')
-                    ->label('Education Level')
-                    ->required()
-                    ->options(FixEducationLevel::query()->pluck('name', 'id')),
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('num_code')
-                    ->label('Num Code')
-                    ->required()
-                    ->maxLength(4),
-                TextInput::make('npsn')
-                    ->label('NPSN')
-                    ->required()
-                    ->maxLength(10),
-                Toggle::make('is_active')
-                    ->required()
-                    ->inline(false)
-                    ->default(true),
-                Textarea::make('info')
-                    ->columnSpanFull(),
-                Toggle::make('same_address_as_branch')
-                    ->columnSpan(2)
-                    ->required()
-                    ->dehydrated(false)
-                    ->inline(false)
-                    ->live()
-                    ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                        if ($state) {
-                            $ref_branch = RefBranch::find($get('ref_branch_id'));
-                            // dd($state);
-
-                            $set('address', $ref_branch->address ?? null);
-                            $set('wil_province_id', $ref_branch->wil_province_id ?? null);
-                            $set('wil_city_id', $ref_branch->wil_city_id ?? null ?? null);
-                            $set('wil_district_id', $ref_branch->wil_district_id ?? null);
-                            $set('wil_subdistrict_id', $ref_branch->wil_subdistrict_id ?? null);
-                            $set('phone', $ref_branch->phone ?? null);
-                            $set('email', $ref_branch->email ?? null);
-                        } else {
-                            $set('address', null);
-                            $set('wil_province_id', null);
-                            $set('wil_city_id', null);
-                            $set('wil_district_id', null);
-                            $set('wil_subdistrict_id', null);
-                            $set('phone', null);
-                            $set('email', null);
-                        }
-                    }),
-                Textarea::make('address')
-                    ->required()
-                    ->columnSpanFull()
-                    ->hidden(fn (Get $get): bool => $get('same_address_as_branch')),
-                Select::make('wil_province_id')
-                    ->label('Province')
-                    ->required()
-                    ->options(WilProvince::query()->pluck('name', 'id'))
-                    ->live()
-                    ->hidden(fn (Get $get): bool => $get('same_address_as_branch')),
-                Select::make('wil_city_id')
-                    ->label('City')
-                    ->required()
-                    ->options(fn (Get $get): Collection => WilCity::query()->where('wil_province_id', $get('wil_province_id'))
-                        ->pluck('name', 'id'))
-                    ->live()
-                    ->hidden(fn (Get $get): bool => $get('same_address_as_branch')),
-                Select::make('wil_district_id')
-                    ->label('District')
-                    ->required()
-                    ->options(fn (Get $get): Collection => WilDistrict::query()->where('wil_city_id', $get('wil_city_id'))
-                        ->pluck('name', 'id'))
-                    ->live()
-                    ->hidden(fn (Get $get): bool => $get('same_address_as_branch')),
-                Select::make('wil_subdistrict_id')
-                    ->label('Subdistrict')
-                    ->required()
-                    ->options(fn (Get $get): Collection => WilSubdistrict::query()->where('wil_district_id', $get('wil_district_id'))
-                        ->pluck('name', 'id'))
-                    ->live()
-                    ->hidden(fn (Get $get): bool => $get('same_address_as_branch')),
-                TextInput::make('phone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
+                Section::make(__('Main Data'))
+                    ->columns(2)
+                    ->schema([
+                        Select::make('ref_branch_id')
+                            ->label(__('Branch'))
+                            ->required()
+                            ->options(RefBranch::query()->pluck('name', 'id'))
+                            ->live()
+                            ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                if ($state) {
+                                    $branch_num_code = RefBranch::find($state)->num_code ?? "";
+                                    $education_level_num_code = FixEducationLevel::find($get('fix_education_level_id'))->num_code ?? "";
+                                    $num_code = $branch_num_code . $education_level_num_code;
+                                    $set('num_code', $num_code);
+                                } else {
+                                    $set('num_code', null);
+                                }
+                            }),
+                        Select::make('fix_education_level_id')
+                            ->label(__('Education Level'))
+                            ->required()
+                            ->options(FixEducationLevel::query()->pluck('name', 'id'))
+                            ->live()
+                            ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                if ($state) {
+                                    $branch_num_code = RefBranch::find($get('ref_branch_id'))->num_code ?? "";
+                                    $education_level_num_code = FixEducationLevel::find($state)->num_code ?? "";
+                                    $num_code = $branch_num_code . $education_level_num_code;
+                                    $set('num_code', $num_code);
+                                } else {
+                                    $set('num_code', null);
+                                }
+                            }),
+                        TextInput::make('name')
+                            ->label(__('Name'))
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+                        TextInput::make('num_code')
+                            ->label(__('Num Code'))
+                            ->required()
+                            ->readOnly()
+                            ->unique(ignoreRecord: true),
+                        TextInput::make('npsn')
+                            ->label(__('NPSN'))
+                            ->maxLength(10),
+                        Toggle::make('is_active')
+                            ->label(__('Is Active'))
+                            ->inline(false)
+                            ->default(true),
+                        Textarea::make('info')
+                            ->label(__('Info'))
+                            ->columnSpanFull(),
+                    ]),
+                Section::make(__('Contact Data'))
+                    ->columns(2)
+                    ->schema([
+                        Toggle::make('same_address_as_branch')
+                            ->label(__('Same Address as Branch'))
+                            ->columnSpan(2)
+                            ->dehydrated(false)
+                            ->inline(false)
+                            ->live()
+                            ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                if ($state) {
+                                    $ref_branch = RefBranch::find($get('ref_branch_id'));
+                                    // dd($state);
+                                    $set('address', $ref_branch->address ?? null);
+                                    $set('wil_province_id', $ref_branch->wil_province_id ?? null);
+                                    $set('wil_city_id', $ref_branch->wil_city_id ?? null ?? null);
+                                    $set('wil_district_id', $ref_branch->wil_district_id ?? null);
+                                    $set('wil_subdistrict_id', $ref_branch->wil_subdistrict_id ?? null);
+                                    $set('phone', $ref_branch->phone ?? null);
+                                    $set('email', $ref_branch->email ?? null);
+                                } else {
+                                    $set('address', null);
+                                    $set('wil_province_id', null);
+                                    $set('wil_city_id', null);
+                                    $set('wil_district_id', null);
+                                    $set('wil_subdistrict_id', null);
+                                    $set('phone', null);
+                                    $set('email', null);
+                                }
+                            }),
+                        Textarea::make('address')
+                            ->label(__('Address'))
+                            ->required()
+                            ->columnSpanFull()
+                            ->hidden(fn(Get $get): bool => $get('same_address_as_branch')),
+                        Select::make('wil_province_id')
+                            ->label(__('Province'))
+                            ->required()
+                            ->options(WilProvince::query()->pluck('name', 'id'))
+                            ->live()
+                            ->hidden(fn(Get $get): bool => $get('same_address_as_branch')),
+                        Select::make('wil_city_id')
+                            ->label(__('City'))
+                            ->required()
+                            ->options(fn(Get $get): Collection => WilCity::query()->where('wil_province_id', $get('wil_province_id'))
+                                ->pluck('name', 'id'))
+                            ->live()
+                            ->hidden(fn(Get $get): bool => $get('same_address_as_branch')),
+                        Select::make('wil_district_id')
+                            ->label(__('District'))
+                            ->required()
+                            ->options(fn(Get $get): Collection => WilDistrict::query()->where('wil_city_id', $get('wil_city_id'))
+                                ->pluck('name', 'id'))
+                            ->live()
+                            ->hidden(fn(Get $get): bool => $get('same_address_as_branch')),
+                        Select::make('wil_subdistrict_id')
+                            ->label(__('Subdistrict'))
+                            ->required()
+                            ->options(fn(Get $get): Collection => WilSubdistrict::query()->where('wil_district_id', $get('wil_district_id'))
+                                ->pluck('name', 'id'))
+                            ->live()
+                            ->hidden(fn(Get $get): bool => $get('same_address_as_branch')),
+                        TextInput::make('phone')
+                            ->label(__('Phone'))
+                            ->tel()
+                            ->maxLength(255),
+                        TextInput::make('email')
+                            ->label(__('E-mail'))
+                            ->email()
+                            ->maxLength(255),
+                    ]),
                 Hidden::make('address'),
                 Hidden::make('wil_province_id'),
                 Hidden::make('wil_city_id'),
@@ -161,28 +195,32 @@ class RefSchoolResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('ref_branch.name')
-                    ->label('Branch')
+                    ->label(__('Branch'))
                     ->searchable(),
                 TextColumn::make('fix_education_level.name')
-                    ->label('Education Level')
+                    ->label(__('Education Level'))
                     ->searchable(),
                 TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable(),
                 TextColumn::make('num_code')
-                    ->label('Num Code')
+                    ->label(__('Num Code'))
                     ->searchable(),
                 TextColumn::make('npsn')
-                    ->label('NPSN')
+                    ->label(__('NPSN'))
                     ->searchable(),
                 TextColumn::make('wil_city.name')
-                    ->label('City')
+                    ->label(__('City'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('phone')
+                    ->label(__('Phone'))
                     ->searchable(),
                 TextColumn::make('email')
+                    ->label(__('E-mail'))
                     ->searchable(),
                 IconColumn::make('is_active')
+                    ->label(__('Is Active'))
                     ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()

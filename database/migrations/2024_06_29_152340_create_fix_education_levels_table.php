@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('fix_education_levels', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->string('name');
-            $table->unsignedSmallInteger('order');
+            $table->string('num_code');
             $table->text('info')->nullable();
             $table->timestamps();
             $table->softDeletes();

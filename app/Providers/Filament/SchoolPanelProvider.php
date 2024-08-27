@@ -25,6 +25,7 @@ class SchoolPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->brandLogo(fn() => view('filament.school.logo'))
             ->id('school')
             ->path('school')
             ->login()
