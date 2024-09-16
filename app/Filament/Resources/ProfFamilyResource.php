@@ -54,7 +54,7 @@ class ProfFamilyResource extends Resource
                     ->columns(2)
                     ->schema([
                         TextInput::make('nokk')
-                            ->label(__('No KK'))
+                            ->label(__('Family Card Number'))
                             ->required(),
                         TextInput::make('number_of_children')
                             ->label(__('Number of Children'))

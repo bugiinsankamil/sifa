@@ -36,12 +36,12 @@ class RefSchoolOriginResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('Sekolah Asal');
+        return __('School Origin');
     }
 
     public static function getModelLabel(): string
     {
-        return __('Sekolah Asal');
+        return __('School Origin');
     }
 
     public static function form(Form $form): Form

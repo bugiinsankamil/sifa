@@ -286,7 +286,7 @@ class ProfStudentResource extends Resource
                             ->label(__('No VA 2'))
                             ->maxLength(255),
                     ]),
-                Section::make(__('Individual Identity'))
+                Section::make(__('Personal Identity'))
                     ->columns(2)
                     ->schema([
                         TextInput::make('fullname')

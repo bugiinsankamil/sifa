@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ resource }};
+use App\Traits\RedirectIndex;
+use Filament\Actions;
+use {{ baseResourcePage }};
+
+class {{ resourcePageClass }} extends {{ baseResourcePageClass }}
+{
+    use RedirectIndex;
+
+    protected static string $resource = {{ resourceClass }}::class;
+}
