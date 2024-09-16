@@ -16,21 +16,21 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call(ShieldSeeder::class);
+        // $this->call(ShieldSeeder::class);
 
-        $super_admin = User::factory()->create([
-            'name' => 'Sysadmin',
-            'email' => 'sysadmin@fathona.sch.id',
-        ]);
+        // $super_admin = User::factory()->create([
+        //     'name' => 'Sysadmin',
+        //     'email' => 'sysadmin@fathona.sch.id',
+        // ]);
 
-        $super_admin->assignRole('super_admin');
+        // $super_admin->assignRole('super_admin');
 
-        $panel_user = User::factory()->create([
-            'name' => 'Panel User',
-            'email' => 'paneluser@fathona.sch.id'
-        ]);
+        // $panel_user = User::factory()->create([
+        //     'name' => 'Panel User',
+        //     'email' => 'paneluser@fathona.sch.id'
+        // ]);
 
-        DB::unprepared(file_get_contents('database/sql/sqlite-reference.sql'));
+        DB::unprepared(file_get_contents('database/dump/data2.sql'));
 
         $this->call([
             // WilProvinceSeeder::class,
@@ -53,8 +53,8 @@ class DatabaseSeeder extends Seeder
             // FixSalarySourceSeeder::class,
             // FixStifinSeeder::class,
             // FixUserTypeSeeder::class,
-            RefBranchSeeder::class,
-            RefSchoolSeeder::class,
+            // RefBranchSeeder::class,
+            // RefSchoolSeeder::class,
         ]);
     }
 }
