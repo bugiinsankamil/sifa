@@ -11,6 +11,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -18,6 +19,8 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class SchoolPanelProvider extends PanelProvider
@@ -58,6 +61,31 @@ class SchoolPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                PanelsRenderHook::BODY_END,
+                fn(): string => Blade::render("
+                    <script>
+                        if (!sessionStorage.getItem('timezone_set')) {
+                            const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                            fetch('/set-user-timezone', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({ timezone: userTimezone })
+                            }).then(() => {
+                                sessionStorage.setItem('timezone_set', 'true');
+                            });
+                        }
+                    </script>"),
+            )
+            ->bootUsing(function () {
+                //
+                $timezone = session('user_timezone', config('app.timezone'));
+                date_default_timezone_set($timezone);
+                Config::set('app.timezone', $timezone);
+            });
     }
 }
