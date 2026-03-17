@@ -7,4 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RefProfession extends Model
 {
     //
+    protected $guarded = ['id'];
+
+    public  $timestamps = false;
 }
