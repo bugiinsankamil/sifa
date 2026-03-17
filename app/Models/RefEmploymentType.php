@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseRefModel as Model;
 
 class RefEmploymentType extends Model
 {
     //
-    protected $guarded = ['id'];
-
-    public  $timestamps = false;
 }

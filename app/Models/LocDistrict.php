@@ -2,15 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseRefModel as Model;
 
 class LocDistrict extends Model
 {
     //
-    protected $guarded = ['id'];
-
-    public  $timestamps = false;
-
     public function locRegency()
     {
         return $this->belongsTo(LocRegency::class);
