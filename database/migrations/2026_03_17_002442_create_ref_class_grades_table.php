@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('ref_class_grades', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('alias')->nullable();
+            $table->foreignId('ref_education_level_id')->nullable()->constrained();
         });
     }
 

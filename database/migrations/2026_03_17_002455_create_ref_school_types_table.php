@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('ref_school_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('numeric_code')->nullable();
+            $table->string('description')->nullable();
         });
     }
 
