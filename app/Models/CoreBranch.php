@@ -16,4 +16,9 @@ class CoreBranch extends Model
     {
         return $this->belongsTo(LocVillage::class);
     }
+
+    public function coreBranchSocmeds()
+    {
+        return $this->hasMany(CoreBranchSocmed::class);
+    }
 }
