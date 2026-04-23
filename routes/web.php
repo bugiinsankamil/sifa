@@ -9,5 +9,5 @@ Route::post('/set-user-timezone', function (Request $request) {
 })->middleware('web');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('portal');
 });
